@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <ctime>
 #include <string>
-#include <iostream>
 #include <vector>
 
 #include "Block.h"
@@ -11,7 +10,7 @@
 Blockchain::Blockchain()
 {
     Block genesis = createGenesisBlock();
-    chain.push_back(genesis);
+    chain.emplace_back(genesis);
 }
 
 std::vector<Block> Blockchain::getChain() {
@@ -38,7 +37,7 @@ void Blockchain::addBlock(TransactionData d)
     int index = (int)chain.size();
     std::size_t previousHash = (int)chain.size() > 0 ? getLatestBlock()->getHash() : 0;
     Block newBlock(index, d, previousHash);
-    chain.push_back(newBlock);
+    chain.emplace_back(newBlock);
 }
 
 bool Blockchain::isChainValid()
@@ -56,7 +55,7 @@ bool Blockchain::isChainValid()
         if (it != chain.begin())
         {
             Block previousBlock = *(it - 1);
-            if (currentBlock.getPreviousHash() != previousBlock.getHash())
+            if (currentBlock.getPrevHash() != previousBlock.getHash())
             {
                 return false;
             }
@@ -72,14 +71,13 @@ void Blockchain::printChain() {
     for (it = chain.begin(); it != chain.end(); ++it)
     {
         Block currentBlock = *it;
-        printf("\n\nBlock ===================================");
-        printf("\nIndex: %d", currentBlock.getIndex());
+        printf("\n\nBlock: %d", currentBlock.getIndex());
         printf("\nAmount: %f", currentBlock.data.amount);
         printf("\nSenderKey: %s", currentBlock.data.senderKey.c_str());
         printf("\nReceiverKey: %s", currentBlock.data.receiverKey.c_str());
         printf("\nTimestamp: %ld", currentBlock.data.timestamp);
         printf("\nHash: %zu", currentBlock.getHash());
-        printf("\nPrevious Hash: %zu", currentBlock.getPreviousHash());
+        printf("\nPrevious Hash: %zu", currentBlock.getPrevHash());
         printf("\nIs Block Valid?: %d", currentBlock.isHashValid());
     }
 }

@@ -27,14 +27,14 @@ size_t Block::generateHash()
     return tDataHash(toHashS) ^ (prevHash(std::to_string(previousHash)) << 1);
 }
 
+size_t Block::getPrevHash()
+{
+    return previousHash;
+}
+
 size_t Block::getHash()
 {
     return blockHash;
-}
-
-size_t Block::getPreviousHash()
-{
-    return previousHash;
 }
 
 bool Block::isHashValid()

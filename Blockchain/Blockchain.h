@@ -15,8 +15,8 @@ public:
     std::vector<Block> getChain();
     Block* getLatestBlock();
     bool isChainValid();
-    void addBlock(TransactionData data);
     void printChain();
+    void addBlock(TransactionData data);
 };
 
 #endif
